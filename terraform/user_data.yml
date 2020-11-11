@@ -1,0 +1,17 @@
+#cloud-config
+users:
+  - name: csgoserver
+    sudo: 'ALL=(ALL) NOPASSWD:ALL'
+    ssh_authorized_keys:
+      - _SSH_KEY_
+
+disable_root: true
+package_update: true
+
+packages:
+  - wget
+  - tar
+  - ansible
+
+runcmd:
+  - su -l csgoserver -c 'ansible pull -U url file -i 127.0.0.1'
