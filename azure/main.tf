@@ -51,6 +51,24 @@ resource "azurerm_network_interface" "demonic" {
   }
 }
 
+data "template_file" "script" {
+  template = file("../terraform/user_data.yml")
+}
+
+# Render a multi-part cloud-init config making use of the part
+# above, and other source files
+data "template_cloudinit_config" "config" {
+  gzip          = true
+  base64_encode = true
+
+  # Main cloud-config configuration file.
+  part {
+    filename     = "user_data.yml"
+    content_type = "text/cloud-config"
+    content      = data.template_file.script.rendered
+  }
+}
+
 resource "azurerm_virtual_machine" "csserver" {
   name                  = "demo-vm"
   location              = azurerm_resource_group.rg.location
@@ -74,6 +92,7 @@ resource "azurerm_virtual_machine" "csserver" {
     computer_name  = "terraformserver"
     admin_username = "demoadmin"
     admin_password = "PUTASECUREPASSWORDHEREPLEASEFORTHELOVEOFGOD123\\aa"
+    custom_data    = data.template_cloudinit_config.config.rendered
   }
 
   os_profile_linux_config {
@@ -89,13 +108,14 @@ resource "azurerm_virtual_machine" "csserver" {
   }
 }
 
+
+
 resource "azurerm_virtual_machine_extension" "csserver" {
   name                 = "hostname"
   virtual_machine_id   = azurerm_virtual_machine.csserver.id
   publisher            = "Microsoft.Azure.Extensions"
   type                 = "CustomScript"
   type_handler_version = "2.0"
-  user_data            = file("../terraform/user_data.yml")
 
   tags = {
     environment = var.environment_tag
