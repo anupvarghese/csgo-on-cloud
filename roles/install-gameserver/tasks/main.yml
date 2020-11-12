@@ -1,0 +1,82 @@
+- name: read env from from /etc/default/linuxgsm
+  include_vars:
+    file: /etc/default/linuxgsm
+    name: env
+
+- name: download linuxgsm install script
+  tags: download
+  get_url:
+    url: https://linuxgsm.sh
+    dest: ~/linuxgsm.sh
+    mode: "+x"
+
+- name: install csgo gsm
+  tags: download
+  shell: ~/linuxgsm.sh csgoserver install
+  args:
+    chdir: ~/
+    creates: ~/csgoserver
+
+- name: download csgo 
+  tags: download
+  shell: ~/csgoserver auto-install
+  args:
+    chdir: ~/
+    creates: ~/serverfiles/csgo
+
+- name: install metamod and sourcemod
+  tags: basemod
+  unarchive:
+    src: "{{ item }}"
+    remote_src: true
+    dest: ~/serverfiles/csgo
+  with_items:
+    - "https://sm.alliedmods.net/smdrop/1.10/sourcemod-1.10.0-git6460-linux.tar.gz"
+    - "http://mms.alliedmods.net/mmsdrop/1.10/mmsource-1.10.7-git971-linux.tar.gz"
+
+- name: configure server
+  tags: basemod
+  template:
+    src: server.cfg.j2
+    dest: ~/lgsm/config-lgsm/csgoserver/csgoserver.cfg
+  
+- name: configure match
+  tags: basemod
+  template:
+    src: game.cfg.j2
+    dest: ~/serverfiles/csgo/cfg/common.cfg
+
+- name: "monitor job"
+  tags: cron
+  cron:
+    user: "{{ ansible_user_id }}"
+    name: "monitor"
+    minute: "15"
+    job: "~/csgoserver monitor"
+
+- name: "update job"
+  tags: cron
+  cron:
+    user: "{{ ansible_user_id }}"
+    name: "update"
+    minute: "30"
+    job: "~/csgoserver update"
+
+- name: "hard update job"
+  tags: cron
+  cron:
+    user: "{{ ansible_user_id }}"
+    name: "hard update"
+    minute: "30"
+    hour: "5"
+    job: "~/csgoserver force-update"
+
+- name: "update linuxgsm job"
+  tags: cron
+  cron:
+    user: "{{ ansible_user_id }}"
+    name: "update linuxgsm"
+    minute: "0"
+    hour: "2"
+    weekday: "0"
+    job: "~/csgoserver update-functions"s

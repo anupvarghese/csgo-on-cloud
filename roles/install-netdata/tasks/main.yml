@@ -1,0 +1,10 @@
+- name: download netdata
+  tags: download
+  get_url:
+    url: https://my-netdata.io/kickstart.sh
+    dest: /tmp/netdata.sh
+    mode: "+x"
+
+- name: install netdata
+  tags: install
+  command: '/tmp/netdata.sh --dont-wait'

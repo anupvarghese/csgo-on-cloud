@@ -14,4 +14,4 @@ packages:
   - ansible
 
 runcmd:
-  - su -l csgoserver -c 'ansible pull -U url file -i 127.0.0.1'
+  - su -l csgoserver -c 'ansible pull -U https://github.com/anupvarghese/csgo-on-cloud.git competitive.yml file -i 127.0.0.1'
