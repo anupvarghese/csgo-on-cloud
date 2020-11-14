@@ -37,8 +37,8 @@ resource "azurerm_public_ip" "cspip" {
   }
 }
 
-resource "azurerm_network_interface" "demonic" {
-  name                = "demo-vm-nic"
+resource "azurerm_network_interface" "csgonic" {
+  name                = "csgo-nic"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   enable_accelerated_networking = true # works only with certain
@@ -51,29 +51,11 @@ resource "azurerm_network_interface" "demonic" {
   }
 }
 
-data "template_file" "script" {
-  template = file("../terraform/user_data.yml")
-}
-
-# Render a multi-part cloud-init config making use of the part
-# above, and other source files
-data "template_cloudinit_config" "config" {
-  gzip          = true
-  base64_encode = true
-
-  # Main cloud-config configuration file.
-  part {
-    filename     = "user_data.yml"
-    content_type = "text/cloud-config"
-    content      = data.template_file.script.rendered
-  }
-}
-
 resource "azurerm_virtual_machine" "csserver" {
-  name                  = "demo-vm"
+  name                  = "csgo-vm"
   location              = azurerm_resource_group.rg.location
   resource_group_name   = azurerm_resource_group.rg.name
-  network_interface_ids = [azurerm_network_interface.demonic.id]
+  network_interface_ids = [azurerm_network_interface.csgonic.id]
   vm_size               = var.vm_size
 
   storage_image_reference {
@@ -90,15 +72,15 @@ resource "azurerm_virtual_machine" "csserver" {
   }
   os_profile {
     computer_name  = "terraformserver"
-    admin_username = "demoadmin"
+    admin_username = "csgoserver"
     admin_password = "PUTASECUREPASSWORDHEREPLEASEFORTHELOVEOFGOD123\\aa"
-    custom_data    = data.template_cloudinit_config.config.rendered
+    custom_data    = file("../terraform/user_data.yml")
   }
 
   os_profile_linux_config {
     disable_password_authentication = true
     ssh_keys {
-      path = "/home/demoadmin/.ssh/authorized_keys"
+      path = "/home/csgoserver/.ssh/authorized_keys"
       key_data = file(var.public_key_path)
     }
   }
@@ -108,16 +90,3 @@ resource "azurerm_virtual_machine" "csserver" {
   }
 }
 
-
-
-resource "azurerm_virtual_machine_extension" "csserver" {
-  name                 = "hostname"
-  virtual_machine_id   = azurerm_virtual_machine.csserver.id
-  publisher            = "Microsoft.Azure.Extensions"
-  type                 = "CustomScript"
-  type_handler_version = "2.0"
-
-  tags = {
-    environment = var.environment_tag
-  }
-}
