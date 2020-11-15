@@ -10,7 +10,7 @@ packages:
 
 write_files:
   - path: /etc/default/linuxgsm
-    owner: csgoserver:csgoserver
+    owner: csgoserver
     content: |
       server_name: 128tick EXECUTES MIRAGE
       tags: 128-tick,executes,mirage
