@@ -6,6 +6,16 @@ provider "azurerm" {
   features {}
 }
 
+data "template_file" "cloud_config" {
+  template = file("../terraform/user_data.yml")
+  vars = {
+    gslt = var.gslt
+    rcon_password = var.rcon_password
+    sv_password = var.sv_password
+  }
+}
+
+
 resource "azurerm_resource_group" "rg" {
   name     = var.resource_group_name
   location = var.region
@@ -74,7 +84,7 @@ resource "azurerm_virtual_machine" "csserver" {
     computer_name  = "terraformserver"
     admin_username = "csgoserver"
     admin_password = "PUTASECUREPASSWORDHEREPLEASEFORTHELOVEOFGOD123\\aa"
-    custom_data    = file("../terraform/user_data.yml")
+    custom_data    = base64encode(data.template_file.cloud_config.rendered)
   }
 
   os_profile_linux_config {

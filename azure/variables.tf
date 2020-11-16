@@ -46,3 +46,18 @@ variable "environment_tag" {
   description = "Environment tag"
   default = "Staging"
 }
+
+variable "sv_password" {
+  description = "Server password"
+  default = "hhahaha"
+}
+
+variable "rcon_password" {
+  description = "Rcon password"
+  default = "lol"
+}
+
+variable "gslt" {
+  description = "steam gslt"
+  default = "cc"
+}
