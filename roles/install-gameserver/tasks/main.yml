@@ -1,3 +1,4 @@
+
 - name: read env from from /etc/default/linuxgsm
   include_vars:
     file: /etc/default/linuxgsm
