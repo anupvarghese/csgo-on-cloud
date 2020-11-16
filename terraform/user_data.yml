@@ -9,25 +9,31 @@ packages:
   - ansible
 
 write_files:
+  - path: /etc/ansible/hosts
+    owner: csgoserver
+    content: | 
+       localhost
   - path: /etc/default/linuxgsm
     owner: csgoserver
     content: |
-      server_name: 128tick EXECUTES MIRAGE
-      tags: 128-tick,executes,mirage
-      gslt: av
-      rcon_passwd: amaze
+      server_name: cop_csgo
+      tags: cop_csgo,executes,mirage
+      gslt: ${gslt}
+      rcon_passwd: ${rcon_password}
+      sv_password: ${sv_password}
       cheats: 0
       map_group: de_mirage
       default_map: de_mirage
       maxplayers: 12
       tickrate: 128
       host_info: 2
+      mp_roundtime: 5
       players_info: 2
       sm_executes_minplayers: 3
-      sm_executes_maxplayers: 10
-      sm_executes_ratio_constant: 0.475 
+      sm_executes_maxplayers: 32
+      sm_executes_ratio_constant: 0.475
       sm_executes_round_time: 40
       sm_executes_auto_scramble: 2
-
 runcmd:
-  - su -l csgoserver -c 'ansible-pull -U https://github.com/anupvarghese/csgo-on-cloud.git --connection=local -i 127.0.0.1 competitive.yml'
+  - bash -c 'ansible-pull -U https://github.com/anupvarghese/csgo-on-cloud.git --connection=local -i 127.0.0.1 competitive.yml'
+
