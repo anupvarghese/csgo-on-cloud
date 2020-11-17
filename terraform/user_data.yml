@@ -9,6 +9,10 @@ packages:
   - ansible
 
 write_files:
+  # - path: /etc/ansible/hosts
+  #   owner: csgoserver
+  #   content: | 
+  #      localhost
   - path: /etc/default/linuxgsm
     owner: csgoserver
     content: |
