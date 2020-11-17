@@ -1,4 +1,4 @@
+
 - name: restart gameserver
-  # command: "~/csgoserver restart"
-  # listen: restart_server
-  shell: echo
+  command: "~/csgoserver restart"
+  listen: restart_server
