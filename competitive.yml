@@ -1,4 +1,4 @@
 - hosts: all
   roles:
-    - install-gameserver
-    - install-netdata
+    - install_gameserver
+    - install_netdata
