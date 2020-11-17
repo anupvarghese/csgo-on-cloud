@@ -47,6 +47,8 @@
     src: game.cfg.j2
     dest: ~/serverfiles/csgo/cfg/common.cfg
     mode: 0644
+  notify: restart_server
+
 - name: "monitor job"
   tags: cron
   cron:
