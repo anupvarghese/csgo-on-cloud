@@ -9,10 +9,6 @@ packages:
   - ansible
 
 write_files:
-  - path: /etc/ansible/hosts
-    owner: csgoserver
-    content: | 
-       localhost
   - path: /etc/default/linuxgsm
     owner: csgoserver
     content: |
@@ -35,5 +31,5 @@ write_files:
       sm_executes_round_time: 40
       sm_executes_auto_scramble: 2
 runcmd:
-  - bash -c 'ansible-pull -U https://github.com/anupvarghese/csgo-on-cloud.git --connection=local -i 127.0.0.1 competitive.yml'
+  - echo "localhost" > /etc/ansible/hosts | ansible-pull -U https://github.com/anupvarghese/csgo-on-cloud.git --connection=local -i 127.0.0.1 competitive.yml
 
