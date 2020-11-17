@@ -1,4 +1,0 @@
-
-- name: restart gameserver
-  command: "~/csgoserver restart"
-  listen: restart_server
