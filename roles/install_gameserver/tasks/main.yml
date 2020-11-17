@@ -12,14 +12,14 @@
 
 - name: install csgo gsm
   tags: download
-  shell: ~/linuxgsm.sh csgoserver install
+  command: ~/linuxgsm.sh csgoserver install
   args:
     chdir: ~/
     creates: ~/csgoserver
 
 - name: download csgo
   tags: download
-  shell: ~/csgoserver auto-install
+  command: ~/csgoserver auto-install
   args:
     chdir: ~/
     creates: ~/serverfiles/csgo
@@ -39,13 +39,14 @@
   template:
     src: server.cfg.j2
     dest: ~/lgsm/config-lgsm/csgoserver/csgoserver.cfg
+    mode: 0644
 
 - name: configure match
   tags: basemod
   template:
     src: game.cfg.j2
     dest: ~/serverfiles/csgo/cfg/common.cfg
-
+    mode: 0644
 - name: "monitor job"
   tags: cron
   cron:
