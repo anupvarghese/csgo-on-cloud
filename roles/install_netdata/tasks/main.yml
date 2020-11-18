@@ -7,4 +7,4 @@
 
 - name: install netdata
   tags: install
-  command: '/tmp/netdata.sh --dont-wait'
+  command: "/tmp/netdata.sh --dont-wait"
