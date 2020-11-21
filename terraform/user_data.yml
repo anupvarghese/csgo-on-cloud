@@ -32,4 +32,3 @@ write_files:
       sm_executes_auto_scramble: 2
 runcmd:
   - echo "localhost" > /etc/ansible/hosts | ansible-pull -U https://github.com/anupvarghese/csgo-on-cloud.git --connection=local -i 127.0.0.1 competitive.yml
-
