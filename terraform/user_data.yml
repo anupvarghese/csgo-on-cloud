@@ -33,4 +33,5 @@ write_files:
       sm_executes_round_time: 40
       sm_executes_auto_scramble: 2
 runcmd:
-  - sudo pip install ansible | echo "localhost" > /etc/ansible/hosts | git clone https://github.com/anupvarghese/csgo-on-cloud.git | ansible-playbook -i 127.0.0.1 csgo-on-cloud/ansible/playbook.yaml
+  # - sudo pip install ansible && sudo bash -c 'echo "localhost" > /etc/ansible/hosts' && ansible-pull -U https://github.com/anupvarghese/csgo-on-cloud.git -i 127.0.0.1 competitive.yml ### This also works
+  - sudo pip install ansible && sudo bash -c 'echo "localhost" > /etc/ansible/hosts' && git clone https://github.com/anupvarghese/csgo-on-cloud.git && ansible-playbook -i 127.0.0.1 csgo-on-cloud/ansible/playbook.yaml
