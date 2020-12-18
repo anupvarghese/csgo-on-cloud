@@ -12,6 +12,7 @@ write_files:
   - path: /etc/default/linuxgsm
     owner: csgoserver
     content: |
+      ---
       server_name: cop_csgo
       tags: cop_csgo,executes,mirage
       gslt: ${gslt}
