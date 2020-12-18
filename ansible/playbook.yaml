@@ -1,100 +1,102 @@
---- 
-- 
-  become: true
-  hosts: localhost
-  tasks: 
-    - 
-      command: "dpkg --add-architecture i386"
-      name: "add i386 arch"
-    - 
-      apt: 
-        cache_valid_time: 3600
-        update_cache: true
-      name: "update package list"
-    - 
-      name: "SteamCMD (licence agreement)"
-      shell: 
-        cmd: "echo steam steam/question select \"I AGREE\" | debconf-set-selections"
-      when: "'steamcmd:i386' not in ansible_facts.packages"
-    - 
-      name: "SteamCMD (licence note)"
-      shell: 
-        cmd: "echo steam steam/license note '' | debconf-set-selections"
-      when: "'steamcmd:i386' not in ansible_facts.packages"
-    - 
-      apt: 
-       name: "{{ item }}"
-      loop: "{{ lgsm_dependencies }}"
-      name: "Install LGSM dependencies"
-    - 
-      group: 
-        name: "{{ lgsm_group }}"
-        system: true
-      name: "Ensure LGSM Server Group exists"
-    - 
-      name: "Ensure LGSM Server user exists"
-      user: 
-        group: "{{ lgsm_group }}"
-        name: "{{ lgsm_user }}"
-        shell: /bin/bash
-        system: true
-    - 
-      get_url: 
-        dest: "/home/{{ lgsm_user }}/linuxgsm.sh"
-        mode: 493
-        owner: "{{ lgsm_user }}"
-        url: "https://linuxgsm.sh"
-      name: "Download LGSM server creator"
-    - 
-      name: "check if csgoserver file exists"
-      register: csgoserver_file
-      stat: 
-        path: "/home/{{ lgsm_user }}/csgoserver"
-    - 
-      args: 
-        chdir: "/home/{{ lgsm_user }}"
-        executable: /bin/bash
-      become_user: csgoserver
-      name: "Initialize the csgoserver"
-      register: csgoserver_init
-      shell: "~/linuxgsm.sh csgoserver"
-      when: "not csgoserver_file.stat.exists"
-    - 
-      debug: 
-        var: csgoserver_init.stdout_lines
-      when: "not csgoserver_file.stat.exists"
-    - 
-      args: 
-        chdir: "/home/{{ lgsm_user }}"
-        executable: /bin/bash
-      become_user: csgoserver
-      name: "Installing the csgoserver(this step might take 30-40min)"
-      shell: "~/csgoserver auto-install > csgoinstall.log"
-      when: "not csgoserver_file.stat.exists"
-    - 
-      copy: 
-        dest: /home/csgoserver/serverfiles/csgo/cfg/csgoserver.cfg
-        group: csgoserver
-        owner: csgoserver
-        src: files/server.cfg.j2
-      name: "Copy server configuration"
-      register: servercfg
-    - 
-      copy: 
-        dest: /home/csgoserver/lgsm/config-lgsm/csgoserver/csgoserver.cfg
-        group: csgoserver
-        owner: csgoserver
-        src: files/csgo.cfg.j2
-      name: "Copy game configuration"
-      register: csgocfg
-    - 
-      args: 
-        chdir: "/home/{{ lgsm_user }}"
-        executable: /bin/bash
-      become_user: csgoserver
-      name: "Restart the server"
-      shell: "~/csgoserver restart"
-      when: "servercfg.changed or csgocfg.changed"
-  vars_files: 
+---
+
+- hosts: localhost
+  become: yes
+  vars_files:
     - ./vars/defaults.yaml
- 
+  tasks:
+  - name: add i386 arch
+    command: dpkg --add-architecture i386
+
+  - name: update package list
+    apt:
+      update_cache: yes
+      cache_valid_time: 3600
+
+  # - name: Check if SteamCMD is installed
+  #   package_facts:
+  #     manager: apt
+
+  - name: SteamCMD (licence agreement)
+    shell:
+      cmd: echo steam steam/question select "I AGREE" | debconf-set-selections
+    when: "'steamcmd:i386' not in ansible_facts.packages"
+
+  - name: SteamCMD (licence note)
+    shell:
+      cmd: echo steam steam/license note '' | debconf-set-selections
+    when: "'steamcmd:i386' not in ansible_facts.packages"
+
+  - name: Install LGSM dependencies
+    apt:
+      name: "{{ item }}"
+    loop: "{{ lgsm_dependencies }}"
+
+  - name: Ensure LGSM Server Group exists
+    group:
+      name: "{{ lgsm_group }}"
+      system: yes
+
+  - name: Ensure LGSM Server user exists
+    user:
+      name: "{{ lgsm_user }}"
+      group: "{{ lgsm_group }}"
+      shell: /bin/bash
+      system: yes
+
+  - name: Download LGSM server creator
+    get_url:
+      url: https://linuxgsm.sh
+      dest: "/home/{{ lgsm_user }}/linuxgsm.sh"
+      mode: 0755
+      owner: "{{ lgsm_user }}"
+
+  - name: check if csgoserver file exists
+    stat:
+      path: "/home/{{ lgsm_user }}/csgoserver"
+    register: csgoserver_file
+
+  - name: Initialize the csgoserver
+    shell: ~/linuxgsm.sh csgoserver
+    args:
+      executable: /bin/bash
+      chdir: "/home/{{ lgsm_user }}"
+    become_user: csgoserver
+    register: csgoserver_init
+    when: not csgoserver_file.stat.exists
+
+  - debug:
+      var: csgoserver_init.stdout_lines
+    when: not csgoserver_file.stat.exists
+
+  - name: Installing the csgoserver(this step might take 30-40min)
+    shell: ~/csgoserver auto-install > csgoinstall.log
+    args:
+      executable: /bin/bash
+      chdir: "/home/{{ lgsm_user }}"
+    become_user: csgoserver
+    when: not csgoserver_file.stat.exists
+
+  - name: Copy server configuration
+    copy:
+      src: files/server.cfg.j2
+      dest: /home/csgoserver/serverfiles/csgo/cfg/csgoserver.cfg
+      owner: csgoserver
+      group: csgoserver
+    register: servercfg
+
+  - name: Copy game configuration
+    copy:
+      src: files/csgo.cfg.j2
+      dest: /home/csgoserver/lgsm/config-lgsm/csgoserver/csgoserver.cfg
+      owner: csgoserver
+      group: csgoserver
+    register: csgocfg
+
+  - name: Restart the server
+    become_user: csgoserver
+    shell: ~/csgoserver restart
+    args:
+      executable: /bin/bash
+      chdir: "/home/{{ lgsm_user }}"
+    when: servercfg.changed or csgocfg.changed
