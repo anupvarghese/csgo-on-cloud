@@ -12,10 +12,6 @@
         update_cache: true
       name: "update package list"
     - 
-      name: "Check if SteamCMD is installed"
-      package_facts: 
-        manager: apt
-    - 
       name: "SteamCMD (licence agreement)"
       shell: 
         cmd: "echo steam steam/question select \"I AGREE\" | debconf-set-selections"
