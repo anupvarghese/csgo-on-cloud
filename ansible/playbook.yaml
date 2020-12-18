@@ -13,9 +13,9 @@
       update_cache: yes
       cache_valid_time: 3600
 
-  # - name: Check if SteamCMD is installed
-  #   package_facts:
-  #     manager: apt
+  - name: Check if SteamCMD is installed
+    package_facts:
+      manager: apt
 
   - name: SteamCMD (licence agreement)
     shell:
