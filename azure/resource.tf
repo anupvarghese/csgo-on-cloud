@@ -79,6 +79,7 @@ resource "azurerm_virtual_machine" "csserver" {
     caching           = "ReadWrite"
     create_option     = "FromImage"
     managed_disk_type = var.storage_disk_type
+    disk_size_gb      = "64"
   }
   os_profile {
     computer_name  = "terraformserver"

@@ -22,7 +22,7 @@ write_files:
       cheats: 0
       map_group: de_mirage
       default_map: de_mirage
-      maxplayers: 12
+      maxplayers: 32
       tickrate: 128
       host_info: 2
       mp_roundtime: 5
