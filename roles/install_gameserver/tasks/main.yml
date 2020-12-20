@@ -45,7 +45,7 @@
   tags: basemod
   template:
     src: game.cfg.j2
-    dest: ~/serverfiles/csgo/cfg/common.cfg
+    dest: ~/serverfiles/csgo/cfg/csgoserver.cfg
     mode: 0644
   notify: restart_server
 
