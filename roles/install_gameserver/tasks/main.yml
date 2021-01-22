@@ -83,3 +83,13 @@
     hour: "2"
     weekday: "0"
     job: "~/csgoserver update-functions"
+
+- name: "restart csgoserver"
+  tags: cron
+  cron:
+    user: "{{ ansible_user_id }}"
+    name: "restart"
+    minute: "0"
+    hour: "3"
+    weekday: "0"
+    job: "~/csgoserver restart"
