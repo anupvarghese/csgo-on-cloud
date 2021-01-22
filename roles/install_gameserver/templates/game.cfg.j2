@@ -1,18 +1,18 @@
 // Hostname - Name of the server.
 // Public information
 
-hostname "{{ (lookup('env.json', '/home/ansible-files/') | from_json).get('hostname') }}"                     //Hostname for the server, will show up in server browsers.
+hostname "{{ (lookup('file', '/home/ansible-files/env.json') | from_json).get('hostname') }}"                     //Hostname for the server, will show up in server browsers.
 log on                                     //This is set to turn on logging!
 sv_lan "0"                                 //This should always be set, so you know it's not on
 sv_region "255"                            //The region of the world to report this server in.
 sv_tags ""                                 //Server tags. Used to provide extra information to clients when they're browsing for servers
-sv_setsteamaccount "{{ (lookup('env.json', '/home/ansible-files/') | from_json).get('gslt') }}""                      //THIS MUST BE FILLED IN OR THE SERVER WILL NOT WORK - SEE http://pingperfect.com/phpbb/viewtopic.php?f=24&t=891
+sv_setsteamaccount "{{ (lookup('file', '/home/ansible-files/env.json') | from_json).get('gslt') }}""                      //THIS MUST BE FILLED IN OR THE SERVER WILL NOT WORK - SEE http://pingperfect.com/phpbb/viewtopic.php?f=24&t=891
 
 ////////////////////////////////////////////////////////////////////////////////
 // Passwords
 
-rcon_password "{{ (lookup('env.json', '/home/ansible-files/') | from_json).get('rcon_password') }}"            //Remote console password.
-sv_password "{{ (lookup('env.json', '/home/ansible-files/') | from_json).get('sv_password') }}"           //Only set this if you intend to have a private server!
+rcon_password "{{ (lookup('file', '/home/ansible-files/env.json') | from_json).get('rcon_password') }}"            //Remote console password.
+sv_password "{{ (lookup('file', '/home/ansible-files/env.json') | from_json).get('sv_password') }}"           //Only set this if you intend to have a private server!
 
 
 /////////////////////////////////////////////////////////////////////////////////

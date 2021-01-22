@@ -1,8 +1,8 @@
-gslt="{{ (lookup('env.json', '/home/ansible-files/') | from_json).get('gslt') }}"
-mapgroup="{{ (lookup('env.json', '/home/ansible-files/') | from_json).get('mapgroup') }}"
-defaultmap="{{ (lookup('env.json', '/home/ansible-files/') | from_json).get('defaultmap') }}"
-maxplayers="{{ (lookup('env.json', '/home/ansible-files/') | from_json).get('maxplayers') }}"
-tickrate="{{ (lookup('env.json', '/home/ansible-files/') | from_json).get('tickrate') }}"
+gslt="{{ (lookup('file', '/home/ansible-files/env.json') | from_json).get('gslt') }}"
+mapgroup="{{ (lookup('file', '/home/ansible-files/env.json') | from_json).get('mapgroup') }}"
+defaultmap="{{ (lookup('file', '/home/ansible-files/env.json') | from_json).get('defaultmap') }}"
+maxplayers="{{ (lookup('file', '/home/ansible-files/env.json') | from_json).get('maxplayers') }}"
+tickrate="{{ (lookup('file', '/home/ansible-files/env.json') | from_json).get('tickrate') }}"
 
 gametype="0"
 gamemode="1"
