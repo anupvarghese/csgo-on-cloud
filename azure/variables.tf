@@ -57,7 +57,13 @@ variable "rcon_password" {
   default = "lol"
 }
 
+variable "hostname" {
+  description = "Hostname"
+  default = "cop"
+}
+
 variable "gslt" {
   description = "steam gslt"
   default = "cc"
 }
+

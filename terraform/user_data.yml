@@ -10,28 +10,21 @@ packages:
   - python-dev
 
 write_files:
-  - path: /etc/default/linuxgsm
+  - path: /home/ansible-files/env.json
     owner: csgoserver
     content: |
-      ---
-      server_name: cop_csgo
-      tags: cop_csgo,executes,mirage
-      gslt: ${gslt}
-      rcon_passwd: ${rcon_password}
-      sv_password: ${sv_password}
-      cheats: 0
-      map_group: de_mirage
-      default_map: de_mirage
-      maxplayers: 32
-      tickrate: 128
-      host_info: 2
-      mp_roundtime: 5
-      players_info: 2
-      sm_executes_minplayers: 3
-      sm_executes_maxplayers: 32
-      sm_executes_ratio_constant: 0.475
-      sm_executes_round_time: 40
-      sm_executes_auto_scramble: 2
+      {
+        "hostname": "${hostname}",
+        "rcon_password": "${rcon_password}",
+        "sv_password": "${sv_password}",
+        "maxplayers": "32",
+        "tickrate": "128",
+        "host_info": "2",
+        "gslt": "${gslt}",
+        "tags": "csgo,executes,mirage",
+        "mapgroup": "de_mirage",
+        "defaultmap": "de_mirage"
+      }
+
 runcmd:
-  - sudo pip install ansible && sudo mkdir -p /etc/ansible && sudo bash -c 'echo "localhost" > /etc/ansible/hosts' && ansible-pull -U https://github.com/anupvarghese/csgo-on-cloud.git -i 127.0.0.1 competitive.yml
-  # - sudo pip install ansible && sudo mkdir -p /etc/ansible && sudo bash -c 'echo "localhost" > /etc/ansible/hosts' && git clone https://github.com/anupvarghese/csgo-on-cloud.git && ansible-playbook -i 127.0.0.1 csgo-on-cloud/ansible/playbook.yaml ### back up plan
+  - sudo pip install ansible && sudo mkdir -p /etc/ansible && sudo bash -c 'echo "localhost" > /etc/ansible/hosts'

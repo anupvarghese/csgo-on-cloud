@@ -1,90 +1,183 @@
-// Hostname - Name of the server.
-hostname "{{ env.server_name }}"
+// Public information
 
-// RCON - remote console password.
-rcon_password "{{ env.rcon_passwd }}"
+hostname "{{ (lookup('env.json', '/home/ansible-files/') | from_json).get('hostname') }}"                     //Hostname for the server, will show up in server browsers.
+log on                                     //This is set to turn on logging!
+sv_lan "0"                                 //This should always be set, so you know it's not on
+sv_region "255"                            //The region of the world to report this server in.
+sv_tags ""                                 //Server tags. Used to provide extra information to clients when they're browsing for servers
+sv_setsteamaccount "{{ (lookup('env.json', '/home/ansible-files/') | from_json).get('gslt') }}""                      //THIS MUST BE FILLED IN OR THE SERVER WILL NOT WORK - SEE http://pingperfect.com/phpbb/viewtopic.php?f=24&t=891
 
-// Server password - for private servers.
-sv_password "{{ env.sv_password }}"
+////////////////////////////////////////////////////////////////////////////////
+// Passwords
 
-// Email - Server admin email.
-// Example: sv_contact "email@example.com"
-sv_contact ""
+rcon_password "{{ (lookup('env.json', '/home/ansible-files/') | from_json).get('rcon_password') }}"            //Remote console password.
+sv_password "{{ (lookup('env.json', '/home/ansible-files/') | from_json).get('sv_password') }}"           //Only set this if you intend to have a private server!
 
-// LAN mode - Server is a LAN server; can't connect from the internet. VAC (Valve Anti-Cheat) is disabled in this mode.
-// Default: sv_lan 0
-sv_lan 0
 
-// Cheats mode - Server is disabled to use cheats by default;Commands like noclip,god are disabled to be exploited by the players. VAC (Valve Anti-Cheat) is disabled in this mode when value is set to '1'.
-// Default: sv_cheats 0
-// Cheats ON: sv_cheats 1
-sv_cheats "{{ env.cheats }}"
+/////////////////////////////////////////////////////////////////////////////////
+// The Bot Convars
 
-// Tags - Used to provide extra informationto clients when they're browsing for servers. Separate tags with a comma.
-// Example: sv_tags "128-tick,deathmatch,dm,ffa,pistol,dust2"
-sv_tags "{{ env.tags }}"
+bot_difficulty 3                           //Defines the skill of bots joining the game.  Values are: 0=easy, 1=normal, 2=hard, 3=expert.
+bot_chatter "off"                          //Control how bots talk. Allowed values: 'off', 'radio', 'minimal', or 'normal
+bot_join_after_player 1                    //If nonzero, bots wait until a player joins before entering the game.
+bot_quota 10                               //Determines the total number of bots in the game.
+bot_quota_mode "fill"                      //Determines the type of quota. Allowed values: 'normal', 'fill', and 'match
 
-// Region - The region of the world to report this server in.
-// Default: -1
-// 0 - US East, 1 - US West, 2 - South America, 3 - Europe, 4 - Asia, 5 - Australia, 6 - Middle East, 7 - Africa
-sv_region -1
 
-// Enable log - Enables logging to file, console, and udp < on | off >.
-// Recommended: log on
-log on
+/////////////////////////////////////////////////////////////////////////////////
+// Server Convars
 
-// Log bans - Log server bans in the server logs.
-// Default: sv_logbans 1
-// Recommended: sv_logbans 1
-sv_logbans 1
+sv_pausable "1"                             //Is the server pausable.
+sv_allow_lobby_connect_only "0"             //If set, players may only join this server from matchmaking lobby, may not connect directly.
+sv_allow_votes "1"                          //Allow voting?
+sv_allow_wait_command "1"                   //Allow or disallow the wait command on clients connected to this server.
+sv_alltalk "0"                              //Players can hear all other players' voice communication, no team restrictions
+sv_alternateticks "0"                       //If set, server only simulates entities on even numbered ticks.
+sv_cheats "0"                               //Allow cheats on server
+sv_deadtalk "1"                             //Dead players can speak (voice, text) to the living
+sv_downloadurl"0"                           //Location from which clients can download missing files
+sv_forcepreload "0"                         //Force server side preloading
+sv_friction "4"                             //World friction."
+sv_full_alltalk "0"                         //Any player (including Spectator team) can speak to any other player
+sv_infinite_ammo "0"                        //Player's active weapon will never run out of ammo
 
-// Log echo - Display log information to the server console.
-// Default: sv_logecho 1
-// Recommended: sv_logecho 1
-sv_logecho 1
 
-// Log file - Log server information in the log file.
-// Default: sv_logfile 1
-// Recommended: sv_logfile 1
-sv_logfile 1
+/////////////////////////////////////////////////////////////////////////////////
+// Server Logging 
 
-// One file log - Log server information to only one file.
-// Default: sv_log_onefile 0
-// Recommended: sv_log_onefile 0
-sv_log_onefile 0
+sv_log_onefile "0"                          //Log server information to only one file.
+sv_logbans "0"                              //Log server bans in the server logs.
+sv_logecho "1"                              //Echo log information to the console.
+sv_logfile "1"                              //Log server information in the log file.
+sv_logflush "0"                             //Flush the log file to disk on each write (slow).
+sv_logsdir "0"                              //Folder in the game directory where server logs will be stored.
 
-// Server Hibernation
-sv_hibernate_when_empty 1
-sv_hibernate_ms 200
 
-// ............................. Server Query ............................. //
-// More info at: https://www.gametracker.com/games/csgo/forum.php?thread=91691
-host_name_store 1
-host_info_show "{{ env.host_info }}"
-host_players_show "{{ env.players_info }}"
+/////////////////////////////////////////////////////////////////////////////////
+// Server Downloads 
 
-// ................................ Ban List ................................ //
+//sv_downloadurl "0"                        //Location from which clients can download missing files
+sv_allowdownload 1
+sv_allowupload 1
+net_maxfilesize 100
 
-// User ban - Server banlist based on user steam ID.
-// Recommended: exec banned_user.cfg
-exec banned_user.cfg
 
-// IP ban - Server banlist based on user IP.
-// Recommended: exec banned_ip.cfg
-exec banned_ip.cfg
 
-// Write ID - Writes a list of permanently-banned user IDs to banned_user.cfg.
+/////////////////////////////////////////////////////////////////////////////////
+// Pure Options 
+
+//sv_pure_kick_clients "1"                  //If set to 1, the server will kick clients with mismatching files.
+//sv_pure_trace "0"                         //If set to 1, the server will print a message whenever a client is verifying a CRC for a file.
+
+/////////////////////////////////////////////////////////////////////////////////
+// Round Convars
+
+mp_match_end_restart "0"                    //Restart the map at the end of round limit         
+mp_afterroundmoney "0"                      //Amount of money awared to every player after each round
+mp_playercashawards "1"                     //Players can earn money by performing in-game actions
+mp_teamcashawards "1"                       //Teams can earn money by performing in-game actions
+mp_maxrounds "30"                           //Maximum amount of rounds per map
+mp_timelimit "0"                            //How many minutes for the whole map
+mp_roundtime "1.45"                            //How many minutes each round takes.
+mp_freezetime "10"                            //how many seconds to keep players frozen when the round starts
+mp_buytime "20"                             //How many seconds after round start players can buy items for.
+mp_forcecamera "1"                          //Set to 1 for team only spectating.
+mp_defuser_allocation "2"                   //How to allocate defusers to CTs at start or round: 0=none, 1=random, 2=everyone
+mp_death_drop_defuser "1"                   //Drop defuser on player death
+mp_death_drop_grenade "2"                   //Which grenade to drop on player death: 0=none, 1=best, 2=current or best
+mp_death_drop_gun "1"                       //Which gun to drop on player death: 0=none, 1=best, 2=current or best
+mp_round_restart_delay "7"                  //Number of seconds to delay before restarting a round after a win
+mp_halftime_duration "20"                   //Number of seconds that halftime lasts
+mp_join_grace_time "20"                      //Number of seconds after round start to allow a player to join a game
+mp_solid_teammates "1"
+
+/////////////////////////////////////////////////////////////////////////////////
+// Friendly Fire
+
+mp_friendlyfire "1"                         //Enable Friendly Fire 1 =Enable 0 =Disable
+//ff_damage_reduction_grenade "0"           //How much to reduce damage done to teammates by a thrown grenade.
+//ff_damage_reduction_bullets "0"           //How much to reduce damage done to teammates when shot.
+//ff_damage_reduction_other "0"             //How much to reduce damage done to teammates by things other than bullets and grenades.
+
+
+/////////////////////////////////////////////////////////////////////////////////
+// Game Convars
+
+mp_autokick "0"                             //Kick idle/team-killing players
+mp_autoteambalance "0"                      //Auto balaces teams
+mp_buytime "20"                             //How many seconds after round start players can buy itsvems for.
+mp_c4timer "40"                             //how long from when the C4 is armed until it blows
+mp_do_warmup_period "1"                     //Whether or not to do a warmup period at the start of a match.
+mp_force_pick_time "120"                     //The amount of time a player has on the team screen to make a selection before being auto-teamed
+mp_halftime_duration "20"                   //Number of seconds that halftime lasts
+mp_join_grace_time "20"                      //Number of seconds after round start to allow a player to join a game
+mp_limitteams "2"                           //Max # of players 1 team can have over another (0 disables check)
+mp_match_end_restart "1"                    //At the end of the match, perform a restart instead of loading a new map
+mp_maxrounds "30"                           //Max amount of rounds per map
+mp_playercashawards "1"                     //Players can earn money by performing in-game actions
+mp_playerid "0"                             //Controls what information player see in the status bar: 0 all names; 1 team names; 2 no names
+mp_playerid_delay "0"                       //Number of seconds to delay showing information in the status bar
+mp_playerid_hold "0"                        //Number of seconds to keep showing old information in the status bar
+mp_restartgame "0"                          //If non-zero, game will restart in the specified number of seconds
+mp_round_restart_delay "7"                  //Number of seconds to delay before restarting a round after a win
+mp_roundtime "1.45"                         //How many minutes each round takes.
+mp_tkpunish "0"                             //Will a TK'er be punished in the next round?  {0=no,  1=yes}
+mp_warmuptime "25"                          //If true, there will be a warmup period/round at the start of each match to allow to connect.
+mp_win_panel_display_time "5"               //The amount of time to show the win panel between matches / halfs
+mp_solid_teammates "1"
+mp_spectators_max "14"
+mp_freezetime "10"                            //how many seconds to keep players frozen when the round starts
+
+/////////////////////////////////////////////////////////////////////////////////
+// Cash Convars
+
+mp_startmoney "1800"                         //Amount of money each player gets when they reset.
+mp_maxmoney "12000"                         //Maximum amount of money allowed in a player's account.					
+cash_team_terrorist_win_bomb "2700"         //How much the team will win for the bomb.
+cash_team_elimination_hostage_map "2700"    //How much a player earns when they eliminate all hostages.
+cash_team_elimination_bomb_map "2700"       //How much the team will win when the bomb is eliminated.
+cash_team_win_by_time_running_out "2700"    //How much the team will win when the time runs out.
+cash_team_win_by_defusing_bomb "2700"       //How much the team will win when bomb has been defused.
+cash_team_win_by_hostage_rescue "2700"      //How much the team will win when all hostages have been rescued.
+cash_team_loser_bonus "2000"                //How much the team will win when when the team looses.
+cash_team_loser_bonus_consecutive_rounds "500" //How much the team will win when the team looses consecutive rounds.
+cash_team_rescued_hostage "100"             //How much the team will win when team has recued a hostage.
+cash_team_hostage_alive	"0"                 //How much the team will win when a hostage is still alive
+cash_team_planted_bomb_but_defused "200"    //How much the team will win when when a team has planted a bomb and been defused
+cash_team_hostage_interaction "50"          //How much the team will win when hostages are saved
+cash_player_killed_teammate "-2000"         //How much the player will loose when a teamate has been team killed
+cash_player_killed_enemy_default "300"      //How much the player will win when killing an enemy
+cash_player_killed_enemy_factor	"1"       //How much the player will win when killing an enemy
+cash_player_bomb_planted "300"              //How much the player will win when the bomb has been planted.
+cash_player_bomb_defused "300"              //How much the player will win when the bomb has been defused
+cash_player_rescued_hostage "200"           //How much the player will win when rescuing hostages       
+cash_player_interact_with_hostage "0"       //How much the player will win when interacting with hostages
+cash_player_damage_hostage "-30"            //How much the player will loose when demaging a hostage   
+cash_player_killed_hostage "-1000"          //How much the player will loose when a hostage has been killed
+
+
+/////////////////////////////////////////////////////////////////////////////////
+// Voting Options 
+
+sv_vote_allow_spectators "0"                //Allow spectators to vote?
+sv_vote_command_delay "2"                   //How long after a vote passes until the action happens
+sv_vote_creation_time "120"                 //How often someone can individually call a vote.
+sv_vote_failure_timer "300"                 //A vote that fails cannot be re-submitted for this long
+sv_vote_quorum_ratio "0"                    //The minimum ratio of players needed to vote on an issue to resolve it.
+sv_vote_timer_duration "15"                 //How long to allow voting on an issue
+
+
+/////////////////////////////////////////////////////////////////////////////////
+// TV Options 
+
+//tv_nochat "0"                             //Don't receive chat messages from other SourceTV spectators
+//tv_port "check"                           //Host SourceTV port
+
+
+/////////////////////////////////////////////////////////////////////////////////
+// The following commands manage kicks and bans
+
 writeid
-
-// Write IP - Save the ban list to banned_ip.cfg.
 writeip
-
-mp_roundtime "{{ env.mp_roundtime }}"
-mp_freezetime 0
-mp_do_warmup_period 0
-mp_warmuptime 0
-bot_quota_mode fill
-bot_difficulty 3
-
-dm_enabled 0
-sm_retakes_enabled 0
+exec banned_user.cfg
+exec banned_ip.cfg

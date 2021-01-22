@@ -12,6 +12,7 @@ data "template_file" "cloud_config" {
     gslt = var.gslt
     rcon_password = var.rcon_password
     sv_password = var.sv_password
+    hostname = var.hostname
   }
 }
 
