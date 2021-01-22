@@ -1,7 +1,7 @@
-- name: read_env
-  include_vars:
-    file: /etc/default/linuxgsm
-    name: env
+# - name: read_env
+#   include_vars:
+#     file: /etc/default/linuxgsm
+#     name: env
 
 - name: download linuxgsm install script
   tags: download
