@@ -5,19 +5,22 @@ Running a CSGO dedicated server on Azure using terraform with cloud-init, ansibl
 ### Initial Steps
 
 - Install terraform, azurecli
-- Azure login
+- Azure login and copy `subscription_id`
 
-  `az login` (Copy subscription_id)
+  ```
+  az login
+  ```
 
 - Create service principal
 
-  `az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/<subscription_id>"`
+  ```
+  az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/<subscription_id>"
+  ```
 
 - Populate secrets, create a file `secrets.tfvars` under `azure` folder
--
 - Check azure for vm_size and storage_disk_type
 
-```
+```shell
    region = "japaneast"
    subscription_id = "<id>"
    client_id       = "<id from service principal>"
@@ -32,7 +35,7 @@ Running a CSGO dedicated server on Azure using terraform with cloud-init, ansibl
 
 ## Terraform steps
 
-```
+```shell
 terraform init
 terraform plan -var-file="secrets.tfvars"
 terraform apply -var-file="secrets.tfvars"
@@ -42,13 +45,15 @@ terraform apply -var-file="secrets.tfvars"
 
 - Once the server is provisioned, you can access it via ssh as below,
 
-```
+```shell
 ssh -i ~/.ssh/id_rsa csgoserver@ipaddress_of_vm
 ```
 
 - Below command will run the ansible playbook and create csgo server
 
-`ansible-pull -U https://github.com/anupvarghese/csgo-on-cloud.git -i 127.0.0.1 competitive.yml`
+```shell
+ansible-pull -U https://github.com/anupvarghese/csgo-on-cloud.git -i 127.0.0.1 competitive.yml
+```
 
 ### Notes
 
