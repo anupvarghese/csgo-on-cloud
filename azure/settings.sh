@@ -6,7 +6,7 @@ echo "{\"hostname\": \"${hostname}\",\"rcon_password\": \"${rcon_password}\",\"s
 
 apt-add-repository ppa:ansible/ansible
 apt-get update
-apt-get install -y ansible
+apt-get install -y ansible python-pip
 
 sudo bash -c 'echo "localhost" > /etc/ansible/hosts'
 
