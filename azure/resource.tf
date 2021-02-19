@@ -6,17 +6,6 @@ provider "azurerm" {
   features {}
 }
 
-data "template_file" "cloud_config" {
-  template = file("../terraform/user_data.yml")
-  vars = {
-    gslt = var.gslt
-    rcon_password = var.rcon_password
-    sv_password = var.sv_password
-    hostname = var.hostname
-  }
-}
-
-
 resource "azurerm_resource_group" "rg" {
   name     = var.resource_group_name
   location = var.region
@@ -86,7 +75,6 @@ resource "azurerm_virtual_machine" "csserver" {
     computer_name  = "terraformserver"
     admin_username = "csgoserver"
     admin_password = "PUTASECUREPASSWORDHEREPLEASEFORTHELOVEOFGOD123\\aa"
-    custom_data    = base64encode(data.template_file.cloud_config.rendered)
   }
 
   os_profile_linux_config {
@@ -96,6 +84,31 @@ resource "azurerm_virtual_machine" "csserver" {
       key_data = file(var.public_key_path)
     }
   }
+
+  tags = {
+    environment = var.environment_tag
+  }
+}
+
+resource "azurerm_virtual_machine_extension" "csserver" {
+  name                 = "hostname"
+  virtual_machine_id   = azurerm_virtual_machine.csserver.id
+  publisher            = "Microsoft.Azure.Extensions"
+  type                 = "CustomScript"
+  type_handler_version = "2.0"
+
+
+  settings = <<SETTINGS
+    {
+      "script": "${base64encode(templatefile("settings.sh", {
+          hostname="${var.hostname}"
+          rcon_password="${var.rcon_password}"
+          sv_password="${var.sv_password}"
+          gslt="${var.gslt}"
+        }))}"
+    }
+SETTINGS
+
 
   tags = {
     environment = var.environment_tag
