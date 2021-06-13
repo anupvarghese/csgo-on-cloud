@@ -100,7 +100,7 @@ resource "azurerm_virtual_machine_extension" "csserver" {
 
   settings = <<SETTINGS
     {
-      "script": "${base64encode(templatefile("settings.sh", {
+      "script": "${base64encode(templatefile("../common/settings.sh", {
           hostname="${var.hostname}"
           rcon_password="${var.rcon_password}"
           sv_password="${var.sv_password}"
