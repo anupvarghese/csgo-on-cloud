@@ -93,3 +93,11 @@
     hour: "3"
     weekday: "0"
     job: "~/csgoserver restart"
+
+- name: "start csgoserver on boot"
+  tags: cron
+  cron:
+    user: "{{ ansible_user_id }}"
+    name: "reboot"
+    special_time: "reboot"
+    job: "~/csgoserver start"
