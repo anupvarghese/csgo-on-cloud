@@ -23,10 +23,10 @@ resource "digitalocean_droplet" "csgoserver" {
   ssh_keys = [digitalocean_ssh_key.default.fingerprint]
 
   connection {
-    type              = "ssh"
-    user              = "root"
-    host              = self.ipv4_address
-    agent             = true
+    type        = "ssh"
+    user        = "root"
+    host        = self.ipv4_address
+    agent       = true
     private_key = file(var.private_key_path)
   }
 
@@ -41,7 +41,7 @@ resource "digitalocean_droplet" "csgoserver" {
     ]
   }
 
-   provisioner "remote-exec" {
+  provisioner "remote-exec" {
     inline = [
       "echo installing csgo",
       "ansible-pull -U https://github.com/anupvarghese/csgo-on-cloud.git -i 127.0.0.1 competitive.yml"

@@ -2,7 +2,7 @@ provider "azurerm" {
   subscription_id = var.subscription_id
   client_id       = var.client_id
   tenant_id       = var.tenant_id
-  version = "=2.0.0"
+  version         = "=2.0.0"
   features {}
 }
 
@@ -38,16 +38,16 @@ resource "azurerm_public_ip" "cspip" {
 }
 
 resource "azurerm_network_interface" "csgonic" {
-  name                = "csgo-nic"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
+  name                          = "csgo-nic"
+  location                      = azurerm_resource_group.rg.location
+  resource_group_name           = azurerm_resource_group.rg.name
   enable_accelerated_networking = true # works only with certain
 
   ip_configuration {
     name                          = "NICConfiguration"
-    subnet_id                     =  azurerm_subnet.subnet_two.id
+    subnet_id                     = azurerm_subnet.subnet_two.id
     private_ip_address_allocation = "Dynamic"
-    public_ip_address_id          =  azurerm_public_ip.cspip.id
+    public_ip_address_id          = azurerm_public_ip.cspip.id
   }
 }
 
@@ -80,7 +80,7 @@ resource "azurerm_virtual_machine" "csserver" {
   os_profile_linux_config {
     disable_password_authentication = true
     ssh_keys {
-      path = "/home/csgoserver/.ssh/authorized_keys"
+      path     = "/home/csgoserver/.ssh/authorized_keys"
       key_data = file(var.public_key_path)
     }
   }
@@ -101,17 +101,17 @@ resource "azurerm_virtual_machine_extension" "csserver" {
   settings = <<SETTINGS
     {
       "script": "${base64encode(templatefile("../common/settings.sh", {
-          hostname="${var.hostname}"
-          rcon_password="${var.rcon_password}"
-          sv_password="${var.sv_password}"
-          gslt="${var.gslt}"
-        }))}"
+  hostname      = "${var.hostname}"
+  rcon_password = "${var.rcon_password}"
+  sv_password   = "${var.sv_password}"
+  gslt          = "${var.gslt}"
+}))}"
     }
 SETTINGS
 
 
-  tags = {
-    environment = var.environment_tag
-  }
+tags = {
+  environment = var.environment_tag
+}
 }
 
