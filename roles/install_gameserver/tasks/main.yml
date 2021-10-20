@@ -34,6 +34,46 @@
     - "https://sm.alliedmods.net/smdrop/1.10/sourcemod-1.10.0-git6460-linux.tar.gz"
     - "http://mms.alliedmods.net/mmsdrop/1.10/mmsource-1.10.7-git971-linux.tar.gz"
 
+- name: install fix hint colour messages
+  tags: plugins
+  git:
+    repo: https://github.com/Franc1sco/FixHintColorMessages
+    dest: ~/sourcemod-plugins
+    version: master
+
+- name: install anthem
+  tags: plugins 
+  git:
+    repo: https://github.com/rogeraabbccdd/CSGO-MVP
+    dest: ~/sourcemod-plugins
+    version: master
+
+- name: copy fix hint plugin to server
+  copy:
+    src: ~/sourcemod-plugins/FixHintColorMessages/FixHintColorMessages.smx
+    dest: ~/serverfiles/csgo/addons/sourcemod/plugins
+
+- name: copy fix hint script to server
+  copy:
+    src: ~/sourcemod-plugins/FixHintColorMessages/FixHintColorMessages.sp
+    dest: ~/serverfiles/csgo/addons/sourcemod/scripting
+
+
+- name: copy anthem plugin to server
+  copy:
+    src: ~/sourcemod-plugins/CSGO-MVP/addons/sourcemod/plugins/kento_mvp.smx
+    dest: ~/serverfiles/csgo/addons/sourcemod/plugins
+
+- name: copy anthem script to server
+  copy:
+    src: ~/sourcemod-plugins/CSGO-MVP/addons/sourcemod/scripting/kento_mvp.sp
+    dest: ~/serverfiles/csgo/addons/sourcemod/plugins
+
+- name: copy anthem script to server
+  copy:
+    src: ~/sourcemod-plugins/CSGO-MVP/addons/sourcemod/translations/kento_mvp.phrases.txt
+    dest: ~/serverfiles/csgo/addons/sourcemod/translations
+
 - name: configure server
   tags: basemod
   template:
