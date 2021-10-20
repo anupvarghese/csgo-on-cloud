@@ -42,7 +42,7 @@
     version: master
 
 - name: install anthem
-  tags: plugins 
+  tags: plugins
   git:
     repo: https://github.com/rogeraabbccdd/CSGO-MVP
     dest: ~/sourcemod-plugins
@@ -58,7 +58,6 @@
     src: ~/sourcemod-plugins/FixHintColorMessages/FixHintColorMessages.sp
     dest: ~/serverfiles/csgo/addons/sourcemod/scripting
 
-
 - name: copy anthem plugin to server
   copy:
     src: ~/sourcemod-plugins/CSGO-MVP/addons/sourcemod/plugins/kento_mvp.smx
@@ -69,10 +68,20 @@
     src: ~/sourcemod-plugins/CSGO-MVP/addons/sourcemod/scripting/kento_mvp.sp
     dest: ~/serverfiles/csgo/addons/sourcemod/plugins
 
-- name: copy anthem script to server
+- name: copy anthem translations to server
   copy:
     src: ~/sourcemod-plugins/CSGO-MVP/addons/sourcemod/translations/kento_mvp.phrases.txt
     dest: ~/serverfiles/csgo/addons/sourcemod/translations
+
+- name: copy anthem config to server
+  copy:
+    src: ~/sourcemod-plugins/CSGO-MVP/addons/sourcemod/configs/kento_mvp.cfg
+    dest: ~/serverfiles/csgo/addons/sourcemod/cfg
+
+- name: copy sound
+  copy:
+    src: ~/sourcemod-plugins/CSGO-MVP/sound/
+    dest: ~/serverfiles/csgo/sound/
 
 - name: configure server
   tags: basemod
