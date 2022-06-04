@@ -2,3 +2,4 @@
   roles:
     - install_gameserver
     - install_netdata
+    - install_custom_mvp

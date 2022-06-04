@@ -1,0 +1,44 @@
+- name: install plugin files
+  tags: custom-mvp
+  get_url:
+    src: "{{ item }}"
+    remote_src: true
+    dest: ~/serverfiles/csgo/addons/sourcemod/plugins/
+  with_items:
+    - "https://github.com/anupvarghese/CSGO-MVP/tree/master/addons/sourcemod/plugins/kento_mvp.smx"
+    - "https://github.com/anupvarghese/CSGO-MVP/tree/master/addons/sourcemod/plugins/FixHintColorMessages.smx"
+
+- name: install scripting files
+  tags: custom-mvp
+  get_url:
+    src: "{{ item }}"
+    remote_src: true
+    dest: ~/serverfiles/csgo/addons/sourcemod/scripting/
+  with_items:
+    - "https://github.com/anupvarghese/CSGO-MVP/tree/master/addons/sourcemod/scripting/kento_mvp.sp"
+    - "https://github.com/anupvarghese/CSGO-MVP/tree/master/addons/sourcemod/scripting/FixHintColorMessages.sp"
+
+- name: install config file
+  tags: custom-mvp
+  get_url:
+    src: "https://github.com/anupvarghese/CSGO-MVP/tree/master/addons/sourcemod/configs/kento_mvp.cfg"
+    remote_src: true
+    dest: ~/serverfiles/csgo/addons/sourcemod/configs/
+
+- name: install translation file
+  tags: custom-mvp
+  get_url:
+    src: "https://github.com/anupvarghese/CSGO-MVP/tree/master/addons/sourcemod/translations/kento_mvp.phrases.txt"
+    remote_src: true
+    dest: ~/serverfiles/csgo/addons/sourcemod/translations/
+
+- name: copy the mp3 files
+  tags: custom-mvp
+  get_url:
+    src: "{{ item }}"
+    remote_src: true
+    dest: ~/serverfiles/csgo/sound/mvp/
+  with_items:
+    - "https://github.com/anupvarghese/CSGO-MVP/tree/master/sound/mvp/illuminati.mp3"
+    - "https://github.com/anupvarghese/CSGO-MVP/tree/master/sound/mvp/johncena.mp3"
+    - "https://github.com/anupvarghese/CSGO-MVP/tree/master/sound/mvp/sirenhead.mp3"         
