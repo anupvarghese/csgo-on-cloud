@@ -41,4 +41,5 @@
   with_items:
     - "https://github.com/anupvarghese/CSGO-MVP/tree/master/sound/mvp/illuminati.mp3"
     - "https://github.com/anupvarghese/CSGO-MVP/tree/master/sound/mvp/johncena.mp3"
-    - "https://github.com/anupvarghese/CSGO-MVP/tree/master/sound/mvp/sirenhead.mp3"         
+    - "https://github.com/anupvarghese/CSGO-MVP/tree/master/sound/mvp/sirenhead.mp3"
+  notify: restart_server           
