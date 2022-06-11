@@ -4,8 +4,8 @@
     url: "{{ item }}"
     dest: ~/serverfiles/csgo/addons/sourcemod/plugins/
   with_items:
-    - "https://github.com/anupvarghese/CSGO-MVP/tree/master/addons/sourcemod/plugins/FixHintColorMessages.smx?raw=true"
-    - "https://github.com/anupvarghese/CSGO-MVP/tree/master/addons/sourcemod/plugins/kento_mvp.smx?raw=true"
+    - "https://cdn.jsdelivr.net/gh/anupvarghese/CSGO-MVP/addons/sourcemod/plugins/FixHintColorMessages.smx"
+    - "https://cdn.jsdelivr.net/gh/anupvarghese/CSGO-MVP/addons/sourcemod/plugins/kento_mvp.smx"
 
 - name: install scripting files
   tags: custom-mvp
@@ -13,19 +13,19 @@
     url: "{{ item }}"
     dest: ~/serverfiles/csgo/addons/sourcemod/scripting/
   with_items:
-    - "https://github.com/anupvarghese/CSGO-MVP/tree/master/addons/sourcemod/scripting/FixHintColorMessages.sp?raw=true"
-    - "https://github.com/anupvarghese/CSGO-MVP/tree/master/addons/sourcemod/scripting/kento_mvp.sp?raw=true"
+    - "https://cdn.jsdelivr.net/gh/anupvarghese/CSGO-MVP/addons/sourcemod/scripting/FixHintColorMessages.sp"
+    - "https://cdn.jsdelivr.net/gh/anupvarghese/CSGO-MVP/addons/sourcemod/scripting/kento_mvp.sp"
 
 - name: install config file
   tags: custom-mvp
   get_url:
-    url: "https://github.com/anupvarghese/CSGO-MVP/tree/master/addons/sourcemod/configs/kento_mvp.cfg?raw=true"
+    url: "https://cdn.jsdelivr.net/gh/anupvarghese/CSGO-MVP/addons/sourcemod/configs/kento_mvp.cfg"
     dest: ~/serverfiles/csgo/addons/sourcemod/configs/
 
 - name: install translation file
   tags: custom-mvp
   get_url:
-    url: "https://github.com/anupvarghese/CSGO-MVP/tree/master/addons/sourcemod/translations/kento_mvp.phrases.txt?raw=true"
+    url: "https://cdn.jsdelivr.net/gh/anupvarghese/CSGO-MVP/addons/sourcemod/translations/kento_mvp.phrases.txt"
     dest: ~/serverfiles/csgo/addons/sourcemod/translations/
 
 - name: create directory to store mvp sound files
@@ -39,7 +39,7 @@
     url: "{{ item }}"
     dest: ~/serverfiles/csgo/sound/mvp/
   with_items:
-    - "https://github.com/anupvarghese/CSGO-MVP/tree/master/sound/mvp/illuminati.mp3?raw=true"
-    - "https://github.com/anupvarghese/CSGO-MVP/tree/master/sound/mvp/johncena.mp3?raw=true"
-    - "https://github.com/anupvarghese/CSGO-MVP/tree/master/sound/mvp/sirenhead.mp3?raw=true"
+    - "https://cdn.jsdelivr.net/gh/anupvarghese/CSGO-MVP/sound/mvp/illuminati.mp3"
+    - "https://cdn.jsdelivr.net/gh/anupvarghese/CSGO-MVP/sound/mvp/johncena.mp3"
+    - "https://cdn.jsdelivr.net/gh/anupvarghese/CSGO-MVP/sound/mvp/sirenhead.mp3"
   notify: restart_server           
