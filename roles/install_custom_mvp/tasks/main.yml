@@ -6,6 +6,7 @@
   with_items:
     - "https://cdn.jsdelivr.net/gh/anupvarghese/CSGO-MVP/addons/sourcemod/plugins/FixHintColorMessages.smx"
     - "https://cdn.jsdelivr.net/gh/anupvarghese/CSGO-MVP/addons/sourcemod/plugins/kento_mvp.smx"
+    - "https://cdn.jsdelivr.net/gh/anupvarghese/CSGO-MVP/addons/sourcemod/plugins/easydownloader.smx"
 
 - name: install scripting files
   tags: custom-mvp
@@ -15,12 +16,16 @@
   with_items:
     - "https://cdn.jsdelivr.net/gh/anupvarghese/CSGO-MVP/addons/sourcemod/scripting/FixHintColorMessages.sp"
     - "https://cdn.jsdelivr.net/gh/anupvarghese/CSGO-MVP/addons/sourcemod/scripting/kento_mvp.sp"
+    - "https://cdn.jsdelivr.net/gh/anupvarghese/CSGO-MVP/addons/sourcemod/scripting/easydownloader.sp"
 
 - name: install config file
   tags: custom-mvp
   get_url:
-    url: "https://cdn.jsdelivr.net/gh/anupvarghese/CSGO-MVP/addons/sourcemod/configs/kento_mvp.cfg"
+    url: "{{ item }}"
     dest: ~/serverfiles/csgo/addons/sourcemod/configs/
+  with_items:
+    - "https://cdn.jsdelivr.net/gh/anupvarghese/CSGO-MVP/addons/sourcemod/configs/kento_mvp.cfg"
+    - "https://cdn.jsdelivr.net/gh/anupvarghese/CSGO-MVP/addons/sourcemod/configs/easydownloader/sounds.txt"
 
 - name: install translation file
   tags: custom-mvp
