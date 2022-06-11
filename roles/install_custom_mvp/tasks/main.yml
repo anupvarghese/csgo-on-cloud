@@ -28,6 +28,11 @@
     url: "https://github.com/anupvarghese/CSGO-MVP/tree/master/addons/sourcemod/translations/kento_mvp.phrases.txt"
     dest: ~/serverfiles/csgo/addons/sourcemod/translations/
 
+- name: create directory to store mvp sound files
+  file:
+    path: ~/serverfiles/csgo/sound/mvp/
+    state: directory
+
 - name: copy the mp3 files
   tags: custom-mvp
   get_url:
