@@ -18,10 +18,23 @@
     - "https://cdn.jsdelivr.net/gh/anupvarghese/CSGO-MVP/addons/sourcemod/scripting/kento_mvp.sp"
     - "https://cdn.jsdelivr.net/gh/anupvarghese/CSGO-MVP/addons/sourcemod/scripting/easydownloader.sp"
 
-- name: create directory to store mvp sound files
+- name: create directory to store easydownloader files
   file:
     path: ~/serverfiles/csgo/addons/sourcemod/configs/easydownloader/
     state: directory
+
+- name: install easydownloader config file
+  tags: custom-mvp
+  get_url:
+    url: "{{ item }}"
+    dest: ~/serverfiles/csgo/addons/sourcemod/configs/easydownlaoder
+  with_items:
+    - "https://cdn.jsdelivr.net/gh/anupvarghese/CSGO-MVP/addons/sourcemod/configs/easydownloader/decals.txt" 
+    - "https://cdn.jsdelivr.net/gh/anupvarghese/CSGO-MVP/addons/sourcemod/configs/easydownloader/downloadonly.txt"
+    - "https://cdn.jsdelivr.net/gh/anupvarghese/CSGO-MVP/addons/sourcemod/configs/easydownloader/generics.txt"    
+    - "https://cdn.jsdelivr.net/gh/anupvarghese/CSGO-MVP/addons/sourcemod/configs/easydownloader/models.txt"    
+    - "https://cdn.jsdelivr.net/gh/anupvarghese/CSGO-MVP/addons/sourcemod/configs/easydownloader/sentencefiles.txt"       
+    - "https://cdn.jsdelivr.net/gh/anupvarghese/CSGO-MVP/addons/sourcemod/configs/easydownloader/sounds.txt"    
 
 - name: install config file
   tags: custom-mvp
@@ -30,7 +43,6 @@
     dest: ~/serverfiles/csgo/addons/sourcemod/configs/
   with_items:
     - "https://cdn.jsdelivr.net/gh/anupvarghese/CSGO-MVP/addons/sourcemod/configs/kento_mvp.cfg"
-    - "https://cdn.jsdelivr.net/gh/anupvarghese/CSGO-MVP/addons/sourcemod/configs/easydownloader/sounds.txt"
 
 - name: install translation file
   tags: custom-mvp
