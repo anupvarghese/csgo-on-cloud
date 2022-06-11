@@ -25,7 +25,7 @@
 - name: install translation file
   tags: custom-mvp
   get_url:
-    url: "https://cdn.jsdelivr.net/gh/anupvarghese/CSGO-MVP/addons/sourcemod/translations/kento_mvp.phrases.txt"
+    url: "https://cdn.jsdelivr.net/gh/anupvarghese/CSGO-MVP/addons/sourcemod/translations/kento.mvp.phrases.txt"
     dest: ~/serverfiles/csgo/addons/sourcemod/translations/
 
 - name: create directory to store mvp sound files
