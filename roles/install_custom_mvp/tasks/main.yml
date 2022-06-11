@@ -18,6 +18,11 @@
     - "https://cdn.jsdelivr.net/gh/anupvarghese/CSGO-MVP/addons/sourcemod/scripting/kento_mvp.sp"
     - "https://cdn.jsdelivr.net/gh/anupvarghese/CSGO-MVP/addons/sourcemod/scripting/easydownloader.sp"
 
+- name: create directory to store mvp sound files
+  file:
+    path: ~/serverfiles/csgo/addons/sourcemod/configs/easydownloader/
+    state: directory
+
 - name: install config file
   tags: custom-mvp
   get_url:
