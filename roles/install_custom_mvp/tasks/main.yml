@@ -27,7 +27,7 @@
   tags: custom-mvp
   get_url:
     url: "{{ item }}"
-    dest: ~/serverfiles/csgo/addons/sourcemod/configs/easydownlaoder
+    dest: ~/serverfiles/csgo/addons/sourcemod/configs/easydownloader/
   with_items:
     - "https://cdn.jsdelivr.net/gh/anupvarghese/CSGO-MVP/addons/sourcemod/configs/easydownloader/decals.txt" 
     - "https://cdn.jsdelivr.net/gh/anupvarghese/CSGO-MVP/addons/sourcemod/configs/easydownloader/downloadonly.txt"
