@@ -23,7 +23,7 @@ Running a CSGO dedicated server on Azure using terraform with ansible and [Linux
 ```shell
    region = "japaneast"
    subscription_id = "<id>"
-   client_id       = "<id from service principal>"
+   client_id       = "<appid from service principal>"
    tenant_id       = "<tenant id from login>"
    resource_group_name = "RG_NAME"
    vm_size = "Standard_F4"
@@ -31,6 +31,7 @@ Running a CSGO dedicated server on Azure using terraform with ansible and [Linux
    sv_password = "secret"
    rcon_password = "secret"
    gslt = "gslt from steam"
+   client_secret = "<password from service principle>"
 ```
 
 ## Terraform steps
@@ -52,6 +53,10 @@ ssh -i ~/.ssh/id_rsa csgoserver@ipaddress_of_vm
 - Below command will run the ansible playbook and create csgo server
 
 ```shell
+# do it this way till this branch is merged to main branch
+ansible-pull -U https://github.com/anupvarghese/csgo-on-cloud.git -C upgrade-metamod-sourcemod -i 127.0.0.1 competitive.yml
+
+# once upgrade-metamod-sourcemod bracnh is merged to main, run this
 ansible-pull -U https://github.com/anupvarghese/csgo-on-cloud.git -i 127.0.0.1 competitive.yml
 ```
 
