@@ -67,3 +67,7 @@ variable "gslt" {
   default     = "cc"
 }
 
+variable "client_secret" {
+  description = "password for the azure cli client"
+  default     = "password"
+}
