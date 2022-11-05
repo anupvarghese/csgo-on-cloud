@@ -14,7 +14,7 @@ Running a CSGO dedicated server on Azure using terraform with ansible and [Linux
 - Create service principal
 
   ```
-  az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/<subscription_id>"
+  MSYS_NO_PATHCONV=1 az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/adcabcec-5fa6-48be-bdb8-b438ae89f8d0"
   ```
 
 - Populate secrets, create a file `secrets.tfvars` under `azure` folder
@@ -46,8 +46,9 @@ terraform apply -var-file="secrets.tfvars"
 
 - Once the server is provisioned, you can access it via ssh as below,
 
+
 ```shell
-ssh -i ~/.ssh/id_rsa csgoserver@ipaddress_of_vm
+ssh -i ~/.ssh/faizal-CS-2.pem csgoserver@20.222.22.249
 ```
 
 - Below command will run the ansible playbook and create csgo server
