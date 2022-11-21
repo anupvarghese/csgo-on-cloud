@@ -4,7 +4,7 @@ Running a CSGO dedicated server on Azure using terraform with ansible and [Linux
 
 ### Initial Steps
 
-- Install terraform, azurecli
+- Install terraform(v1.1.7), azurecli(2.34.1)
 - Azure login and copy `subscription_id`
 
   ```
@@ -14,7 +14,7 @@ Running a CSGO dedicated server on Azure using terraform with ansible and [Linux
 - Create service principal
 
   ```
-  az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/<subscription_id>"
+  MSYS_NO_PATHCONV=1 az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/<subscription_id>"
   ```
 
 - Populate secrets, create a file `secrets.tfvars` under `azure` folder
@@ -46,6 +46,7 @@ terraform apply -var-file="secrets.tfvars"
 
 - Once the server is provisioned, you can access it via ssh as below,
 
+
 ```shell
 ssh -i ~/.ssh/id_rsa csgoserver@ipaddress_of_vm
 ```
@@ -65,3 +66,5 @@ ansible-pull -U https://github.com/anupvarghese/csgo-on-cloud.git -i 127.0.0.1 c
 This setup uses [LinuxGSM](https://linuxgsm.com/) to host csgo server.
 
 Management of the game server can be found in [these](https://docs.linuxgsm.com/commands) docs
+
+If you want to deploy with changes that are in a branch and not master, try this - ansible-pull -U https://github.com/anupvarghese/csgo-on-cloud.git -C <your_branch_name> -i 127.0.0.1 competitive.yml

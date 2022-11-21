@@ -31,8 +31,8 @@
     remote_src: true
     dest: ~/serverfiles/csgo
   with_items:
-    - "https://sm.alliedmods.net/smdrop/1.12/sourcemod-1.12.0-git6925-linux.tar.gz"
-    - "http://mms.alliedmods.net/mmsdrop/1.12/mmsource-1.12.0-git1161-linux.tar.gz"
+    - "https://sm.alliedmods.net/smdrop/1.12/sourcemod-1.12.0-git6935-linux.tar.gz"
+    - "http://mms.alliedmods.net/mmsdrop/1.12/mmsource-1.12.0-git1163-linux.tar.gz"
 
 - name: configure server
   tags: basemod
