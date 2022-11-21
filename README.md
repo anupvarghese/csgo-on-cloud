@@ -54,10 +54,6 @@ ssh -i ~/.ssh/id_rsa csgoserver@ipaddress_of_vm
 - Below command will run the ansible playbook and create csgo server
 
 ```shell
-# do it this way till this branch is merged to main branch
-ansible-pull -U https://github.com/anupvarghese/csgo-on-cloud.git -C upgrade-metamod-sourcemod -i 127.0.0.1 competitive.yml
-
-# once upgrade-metamod-sourcemod bracnh is merged to main, run this
 ansible-pull -U https://github.com/anupvarghese/csgo-on-cloud.git -i 127.0.0.1 competitive.yml
 ```
 
